@@ -18,50 +18,43 @@ def visualize_stock(ticker):
     file_path = Path(PROCESSED_DATA_DIR) / f"{ticker}_clean.csv"
 
     if not file_path.exists():
-        raise FileNotFoundError(
-            f"Cleaned data not found: {file_path}. "
-            "Run the data cleaning module first."
-        )
+        raise FileNotFoundError(f"Missing file: {file_path}")
 
     df = pd.read_csv(file_path)
     df["Date"] = pd.to_datetime(df["Date"])
 
-    # Create four analytical charts
     fig, axes = plt.subplots(
         4, 1,
         figsize=(15, 14),
         sharex=True
     )
 
-    # 1. Adjusted closing price
+    # Adjusted closing price
     axes[0].plot(df["Date"], df["Adj Close"])
     axes[0].set_title(f"{ticker} - Adjusted Closing Price")
     axes[0].set_ylabel("Price (INR)")
     axes[0].grid(alpha=0.3)
 
-    # 2. Daily returns
+    # Daily returns
     axes[1].plot(df["Date"], df["Daily_Return"])
     axes[1].set_title("Daily Returns")
     axes[1].set_ylabel("Return")
     axes[1].grid(alpha=0.3)
 
-    # 3. Rolling volatility
+    # Rolling volatility
     axes[2].plot(df["Date"], df["Rolling_Volatility_20"])
     axes[2].set_title("20-Day Annualized Rolling Volatility")
     axes[2].set_ylabel("Volatility")
     axes[2].grid(alpha=0.3)
 
-    # 4. Trading volume
+    # Trading volume
     axes[3].plot(df["Date"], df["Volume"])
     axes[3].set_title("Daily Trading Volume")
     axes[3].set_ylabel("Shares")
     axes[3].set_xlabel("Date")
     axes[3].grid(alpha=0.3)
 
-    fig.suptitle(
-        f"Stock Market Analysis: {ticker}",
-        fontsize=16
-    )
+    fig.suptitle(f"Stock Market Analysis: {ticker}", fontsize=16)
 
     plt.tight_layout()
 
@@ -80,7 +73,7 @@ def main():
         "TCS.NS",
         "INFY.NS",
         "HDFCBANK.NS",
-        "ICICIBANK.NS",
+        "ICICIBANK.NS"
     ]
 
     for ticker in tickers:
